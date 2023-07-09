@@ -14,12 +14,20 @@ export interface IscryfallResult {
 }
 
 export interface ICardFace {
-    artist: string;
-    mana_cost: string;
-    name: string;
     object: "card_face";
+
+    name: string;
+    mana_cost: string;
+    
+    colors: string[];
+    color_identity: string[];
+    type_line: string;
     oracle_text: string;
+    
     image_uris: ICardImages;
+    
+
+    artist: string;
 }
 
 export interface ICardImages {
@@ -32,11 +40,20 @@ export interface ICardImages {
 }
 
 export interface IMTGCard {
+    object: 'card';
+
     id: string;
     name: string;
-    artist: string;
+    mana_cost: string;
+    
+    colors: string[];
+    color_identity: string[];
+    type_line: string;
+    oracle_text: string;
+
     image_status: "lowres" | "highres_scan" | string;
     image_uris: ICardImages;
     card_faces: ICardFace[]
-    oracle_text: string;
+    
+    artist: string;
 }
