@@ -1,12 +1,10 @@
-import { StringLiteral } from "typescript";
-
 export interface IscryfallResult {
     object: 'error' | 'list';
     //succes atribute
     total_cards: number;
     has_more: boolean;
     next_page: string;
-    data: IMTGCard[];
+    data: ICard[];
 
     //error atributes
     code: string;
@@ -43,7 +41,7 @@ export interface ICardImages {
     small: string;
 }
 
-export interface IMTGCard {
+export interface ICard {
     object: 'card';
 
     id: string;
