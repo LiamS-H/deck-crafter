@@ -1,6 +1,6 @@
 .card-tile {
     width: 100%;
-    border: 2px solid blue;
+    border: 1px solid black;
     
     display: flex;
     justify-content: space-between;
@@ -8,13 +8,16 @@
 
 }
 
-.card-tile > * {
+/* .card-tile > * {
     border: 2px solid red;
-}
+} */
 
 .card-tile > button {
     padding: 0px;
     display: flex;
+    border:none;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
 .card-tile > button > img {
