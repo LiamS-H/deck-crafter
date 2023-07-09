@@ -1,0 +1,22 @@
+.card-tile {
+    width: 100%;
+    border: 2px solid blue;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.card-tile > * {
+    border: 2px solid red;
+}
+
+.card-tile > button {
+    padding: 0px;
+    display: flex;
+}
+
+.card-tile > button > img {
+    
+}

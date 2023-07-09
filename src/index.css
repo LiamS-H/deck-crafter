@@ -1,0 +1,6 @@
+/* This CSS applies to the whole app, it is through the index.html page */
+
+#root {
+    max-width: 1920px;
+    margin: 0 auto;
+  } 
