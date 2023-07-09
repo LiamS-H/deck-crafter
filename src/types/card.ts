@@ -1,3 +1,5 @@
+import { StringLiteral } from "typescript";
+
 export interface IscryfallResult {
     object: 'error' | 'list';
     //succes atribute
@@ -18,6 +20,8 @@ export interface ICardFace {
 
     name: string;
     mana_cost: string;
+    power: string;
+    toughness: string;
     
     colors: string[];
     color_identity: string[];
@@ -45,6 +49,8 @@ export interface IMTGCard {
     id: string;
     name: string;
     mana_cost: string;
+    power: string;
+    toughness: string;
     
     colors: string[];
     color_identity: string[];
@@ -57,3 +63,20 @@ export interface IMTGCard {
     
     artist: string;
 }
+
+export const cardTypes = [
+    'artifact',
+    'conspiracy',
+    'creature',
+    'dungeon',
+    'enchantment',
+    'instant',
+    'land',
+    'phenomenon',
+    'plane',
+    'planeswalker',
+    'scheme',
+    'sorcery',
+    'tribal',
+    'vanguard',
+]
