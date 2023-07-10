@@ -1,3 +1,5 @@
+import { StringLiteral } from "typescript";
+
 export interface IscryfallResult {
     object: 'error' | 'list';
     //succes atribute

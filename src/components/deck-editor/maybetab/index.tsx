@@ -14,9 +14,9 @@ export function MaybeTab() {
     const cards = deck.maybeBoard
 
     return (
-        <div className='search-tab'>
+        <div className='maybe-tab'>
         
-            <CardList cards={cards}/>
+            <CardList cards={cards} zone="maybeBoard"/>
         
         </div>
     )

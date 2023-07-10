@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { IMTGCard } from '../../../types/card';
+import { ICard } from '../../../types/card';
 import { IscryfallResult } from '../../../types/card';
 import { scryfallQuery } from '../../../services/scryfallService';
 
@@ -9,7 +9,7 @@ import CardArray from './card-array';
 import './searchTab.css'
 
 export default function SearchTab() {
-    const [cards, getCards] = useState<IMTGCard[]>([]);
+    const [cards, getCards] = useState<ICard[]>([]);
 
     function SearchBar() {
         const [message, setMessage] = useState('')

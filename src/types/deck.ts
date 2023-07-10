@@ -1,5 +1,5 @@
 import { ITagMapping } from "./tags";
-import { IMTGCard } from "./card";
+import { ICard } from "./card";
 
 export const EMPTYDECK : IDeck = {
     name: "Untitled",
@@ -15,7 +15,7 @@ export interface IDeck {
     commander: string;
     colorspace: string[];
     tagMap: ITagMapping[];
-    maybeBoard: IMTGCard[];
-    cards: IMTGCard[];
+    maybeBoard: ICard[];
+    cards: ICard[];
 
 }
