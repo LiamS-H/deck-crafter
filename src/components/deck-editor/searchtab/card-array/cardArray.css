@@ -24,3 +24,10 @@
     overflow-y: auto;
     text-overflow: ellipsis;
 }
+
+button.toggle-included {
+    position: absolute;
+    right: 0;
+    top: 0;
+    
+}
