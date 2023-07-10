@@ -6,13 +6,16 @@ import { IDeck, EMPTYDECK } from '../../types/deck'
 
 import SearchTab from "./searchtab"
 import { MaybeTab } from './maybetab'
+import { DeckTab } from './decktab'
 
-interface IdeckContext {
+
+
+interface IDeckContext {
     deck : IDeck
     modifyDeck: (deck : IDeck) => void
 }
 
-export const deckContext = createContext<IdeckContext>({
+export const deckContext = createContext<IDeckContext>({
     deck : EMPTYDECK,
     modifyDeck: (deck : IDeck) => {},
 })
@@ -23,7 +26,7 @@ export default function DeckEditor() {
     return (
         <deckContext.Provider value= {{deck, modifyDeck}}>
             <div className='deck-editor'>
-                <div className='deck'></div>
+                <DeckTab />
                 <MaybeTab />
                 <SearchTab />
             </div>
