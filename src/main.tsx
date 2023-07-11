@@ -9,9 +9,9 @@ import {
     RouterProvider,
   } from "react-router-dom";
 
-import ErrorPage from './routes/error-page.tsx';
-import Deck from './routes/deck.tsx';
-import Decks from './routes/decks.tsx';
+import ErrorPage from './routes/error-page/index.tsx';
+import Deck from './routes/deck/index.tsx';
+import Decks from './routes/decks/index.tsx';
 
 
 import {
