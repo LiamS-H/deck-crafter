@@ -1,6 +1,10 @@
+import { Link } from 'react-router-dom'
 import logo from '../../assets/Logo.png'
 
 import './header.css'
+
+import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react'
+import LoginButton from './login-button'
 
 export default function Header() {
     return (
@@ -9,9 +13,9 @@ export default function Header() {
             <nav>
                 <img src={logo}/>
                 <ul className="nav-items">
-                    <li>Contact</li>
-                    <li>About</li>
-                    <li>Home</li>
+                    <li><Link to={'decks'}>Decks</Link></li>
+                    <SignedOut><li><LoginButton /></li></SignedOut>
+                    <SignedIn><li><UserButton /></li></SignedIn>
                 </ul>
             </nav>
         </header>
