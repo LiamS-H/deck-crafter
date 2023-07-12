@@ -1,5 +1,3 @@
-import { StringLiteral } from "typescript";
-
 export interface IscryfallResult {
     object: 'error' | 'list';
     //succes atribute
@@ -65,18 +63,18 @@ export interface ICard {
 }
 
 export const cardTypes = [
-    'artifact',
-    'conspiracy',
-    'creature',
-    'dungeon',
-    'enchantment',
-    'instant',
-    'land',
-    'phenomenon',
-    'plane',
-    'planeswalker',
-    'scheme',
-    'sorcery',
-    'tribal',
-    'vanguard',
+    'Artifact',
+    'Conspiracy',
+    'Creature',
+    'Dungeon',
+    'Enchantment',
+    'Instant',
+    'Land',
+    'Phenomenon',
+    'Plane',
+    'Planeswalker',
+    'Scheme',
+    'Sorcery',
+    'Tribal',
+    'Vanguard',
 ]

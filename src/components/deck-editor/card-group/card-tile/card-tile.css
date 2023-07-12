@@ -1,0 +1,28 @@
+.card-tile {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid white;
+    
+    box-sizing: border-box;
+
+    color: white;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* overflow-x: auto; */
+}
+
+.card-display {
+    width: 90%;
+    min-width: 0px;
+    overflow:hidden;
+
+    display: block;
+    white-space: nowrap;
+}
+
+/* .card-tile > * {
+    border: 2px solid red;
+} */

@@ -15,13 +15,13 @@ export const CardTile = memo((props : {cardObj : ICard, zone : "cards"|"maybeBoa
     function deckToMaybe() {
         const newDeck = {...deck}
         newDeck.maybeBoard.push(props.cardObj)
-        newDeck.cards = newDeck.cards.filter((card)=>card.name!=props.cardObj.name)
+        newDeck.mainBoard = newDeck.mainBoard.filter((card)=>card.name!=props.cardObj.name)
         modifyDeck(newDeck)
     }
 
     function maybeToDeck() {
         const newDeck = {...deck}
-        newDeck.cards.push(props.cardObj)
+        newDeck.mainBoard.push(props.cardObj)
         newDeck.maybeBoard = newDeck.maybeBoard.filter((card)=>card.name!=props.cardObj.name)
         modifyDeck(newDeck)
     }

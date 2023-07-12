@@ -1,8 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Root from './routes/root.tsx';
-import App from './App.tsx'
+
 import './index.css'
+import '../node_modules/react-grid-layout/css/styles.css'
+import '../node_modules/react-resizable/css/styles.css'
+
 
 import {
     createBrowserRouter,

@@ -4,7 +4,7 @@ import { deckContext } from '../..';
 import MTGCard from "../mtg-card";
 
 import { ICard } from "../../../../types/card";
-import { IDeck } from '../../../../types/deck';
+import { Deck } from '../../../../types/deck';
 
 
 import eyeIconOpen from '../../../../assets/Left-Arrow.png'
@@ -12,12 +12,12 @@ import eyeIconClosed from '../../../../assets/Right-Arrow.png'
 
 import './cardArray.css'
 
-function deckIncludes(deck : IDeck, cardObj: ICard) {
+function deckIncludes(deck : Deck, cardObj: ICard) {
     for (let card of deck.maybeBoard) {
         if (card.name == cardObj.name) return true;
     }
 
-    for (let card of deck.cards) {
+    for (let card of deck.mainBoard) {
         if (card.name == cardObj.name) return true;
     }
 
@@ -26,7 +26,7 @@ function deckIncludes(deck : IDeck, cardObj: ICard) {
 
 export default function CardArray( props : {cards : ICard[]}) {
     const [hideIncluded, setHideIncluded] = useState(false)
-    const {deck, modifyDeck} = useContext(deckContext)
+    const {deck} = useContext(deckContext)
 
     const cardDispArray = props.cards.map(card => <MTGCard key={card.id} CardObj={card}/>);
 

@@ -11,7 +11,7 @@ export function DeckTab() {
 
     modifyDeck
 
-    const cards = deck.cards
+    const cards = deck.mainBoard
 
     return (
         <div className='deck-tab'>
