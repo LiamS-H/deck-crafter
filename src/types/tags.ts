@@ -1,7 +1,6 @@
-import { ICard } from "./card";
-
 export interface ITag {
-    [key: string] : ICard[]
+    name : string;
+    cards : string[];
 }
 
 export interface ITagMapping {

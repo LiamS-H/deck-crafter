@@ -1,7 +1,9 @@
-import DeckEditor from "../../components/deck-editor"
+import DeckListEditor from "../../components/deck-list-editor"
 
 export default function Deck() {
+    
+
     return (
-        <DeckEditor />
+        <DeckListEditor />
     )
 }

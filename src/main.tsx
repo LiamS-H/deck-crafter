@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Root from './routes/root.tsx';
+import GlobalStyle from './styles/global.ts';
 
 import './index.css'
 import '../node_modules/react-grid-layout/css/styles.css'
@@ -58,6 +59,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
+        <GlobalStyle></GlobalStyle>
         <ClerkProvider  publishableKey={clerkPubKey}>
             <RouterProvider router={router} />
         </ClerkProvider>
