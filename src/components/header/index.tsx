@@ -11,7 +11,7 @@ export default function Header() {
     <>
         <header>
             <nav>
-                <img src={logo}/>
+                <Link to={'/home'}><img src={logo}/></Link>
                 <ul className="nav-items">
                     <li><Link to={'decks'}>Decks</Link></li>
                     <SignedOut><li><LoginButton /></li></SignedOut>

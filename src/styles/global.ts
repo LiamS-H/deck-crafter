@@ -1,6 +1,23 @@
 import {createGlobalStyle} from "styled-components"
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalTheme = {
+    background : "rgb(103, 96, 109)",
+    container : "#dfdfff",
+    group : "#f4cccc",
+    tile : {
+        border: "#fdfdfd10",
+        background: "",
+    }
+    
+}
+
+export const GlobalStyle = createGlobalStyle`
+    html {
+        height: 100%;
+    }
+    body {
+        height: 100%;
+    }
     *{
         margin: 0;
         padding: 0;
@@ -10,7 +27,6 @@ const GlobalStyle = createGlobalStyle`
     }
     #root{
         margin:0 auto;
+        height: 100%;
     }
  `
-
-export default GlobalStyle

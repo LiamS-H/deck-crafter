@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Root from './routes/root.tsx';
-import GlobalStyle from './styles/global.ts';
+import { GlobalStyle, GlobalTheme } from './styles/global.ts';
+import { ThemeProvider } from 'styled-components';
+
 
 import './index.css'
 import '../node_modules/react-grid-layout/css/styles.css'
@@ -13,10 +15,10 @@ import {
     RouterProvider,
   } from "react-router-dom";
 
-import ErrorPage from './routes/error-page/index.tsx';
-import Deck from './routes/deck/index.tsx';
-import Decks from './routes/decks/index.tsx';
-
+import ErrorPage from './routes/error-page';
+import Deck from './routes/deck';
+import Decks from './routes/decks';
+import Home from './routes/home';
 
 import {
     ClerkProvider,
@@ -45,12 +47,16 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: "deck/:deckId",
+                path: "deck/:deck_id",
                 element: <Deck />,
             },
             {
                 path: "decks",
                 element: <Decks />,
+            },
+            {
+                path: "home",
+                element: <Home />,
             }
         ]
     }
@@ -59,9 +65,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <GlobalStyle></GlobalStyle>
+        <GlobalStyle />
+        <ThemeProvider theme={GlobalTheme}>
         <ClerkProvider  publishableKey={clerkPubKey}>
             <RouterProvider router={router} />
         </ClerkProvider>
+        </ThemeProvider>
     </React.StrictMode>,
 )

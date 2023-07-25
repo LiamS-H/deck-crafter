@@ -13,12 +13,20 @@ export interface IGroup {
     card_ids : string[],
 }
 
+export interface IDispGroup {
+    id : string,
+    title ?: string,
+    card_ids : string[],
+    disabled : string[],
+}
+
 export interface IDeckDispMode {
-    grouping : "tags" | "type" | "color" | "cmc"
-    order : "cmc" | "price"
+    grouping : "tags" | "type" | "color" | "cmc" | string
+    order : "cmc" | "price" | string
 }
 
 export interface IDeckList {
+    title : string;
     display : IDeckDispMode;
     cards : {
         [key:string] : ICard
@@ -37,8 +45,9 @@ export interface IDeckList {
 }
 
 export const EMPTY_DECKLIST : IDeckList = {
+    title: "unnamed",
     display : {
-        grouping : "tags",
+        grouping : "type",
         order: "cmc"
     },
     cards : {},
@@ -67,11 +76,13 @@ export const EMPTY_DECKLIST : IDeckList = {
 }
 
 export interface IDeckDisp {
+    title: string,
+    display : IDeckDispMode;
     cards : {
         [key:string] : ICard
     },
     groups : {
-        [key:string] : IGroup
+        [key:string] : IDispGroup
     }
     zones : {
         search : {
@@ -94,6 +105,8 @@ export interface IDeckDisp {
 }
 
 export const EMPTY_DECKDISP : IDeckDisp = {
+    title: "unnamed",
+    display : {grouping : "tags", order: "cmc" },
     cards : { },
     groups : { },
     zones : {

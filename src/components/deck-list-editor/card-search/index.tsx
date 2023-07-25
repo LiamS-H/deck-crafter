@@ -5,11 +5,19 @@ import { scryfallQuery } from "../../../services/scryfallService";
 
 import { DeckListContext } from "..";
 
+import styled from "styled-components";
+
+const SearchWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
+
 export default function CardSearch() {
     const [input, setInput] = useState<string>("")
     const [message, setMessage] = useState<string>("")
 
-    const {decklist, setDecklist} = useContext(DeckListContext)
+    const {decklist, updateDeckList} = useContext(DeckListContext)
 
     function beginQuery(event : React.FormEvent) {
         event.preventDefault()
@@ -43,7 +51,7 @@ export default function CardSearch() {
         newDecklist.zones.search.card_ids = card_ids
 
         // console.log("cards after search:", newDecklist.zones.search.card_ids.map(card_id=>newDecklist.cards[card_id].name))
-        setDecklist(newDecklist)
+        updateDeckList(newDecklist)
     }
 
     function handleError() {
@@ -51,12 +59,12 @@ export default function CardSearch() {
     }
 
     return (
-    <>
+    <SearchWrapper>
         <form onSubmit={beginQuery}>
             <input name="bootleg-scryfall-search" type="text" onChange={(e)=>setInput(e.currentTarget.value)}></input>
             <button type="submit" >Search</button>
         </form>
         <span>{message}</span>
-    </>
+    </SearchWrapper>
     )
 }

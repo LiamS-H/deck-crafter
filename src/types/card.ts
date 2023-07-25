@@ -50,6 +50,7 @@ export interface ICard {
     cmc : string;
     power: string;
     toughness: string;
+    keywords : string[];
 
     price : string | null;
     prices: {
