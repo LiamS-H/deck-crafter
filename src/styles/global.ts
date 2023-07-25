@@ -1,9 +1,11 @@
 import {createGlobalStyle} from "styled-components"
 
 export const GlobalTheme = {
-    background : "rgb(103, 96, 109)",
-    container : "#dfdfff",
-    group : "#f4cccc",
+    text : "#fefbfd",
+    background : "#080207",
+    container : "#155123",
+    group : "#061418",
+    accent : "#31b951",
     tile : {
         border: "#fdfdfd10",
         background: "",

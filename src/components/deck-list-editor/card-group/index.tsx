@@ -8,7 +8,8 @@ import { ICard } from "../../../types/card";
 import { IDispGroup } from "../../../types/decklist";
 
 import { BsPencilSquare, BsFillCaretRightFill, BsFillCaretDownFill } from "react-icons/bs";
-import CardTile from '../card-tile'
+import CardTile from '../card-tile/card-tile'
+import CardTileDual from "../card-tile/card-tile-dual";
 
 const GroupWrapper = styled.div`
     background-color: ${props=>props.theme.group};
@@ -79,26 +80,32 @@ export default function CardGroup( props : { group : IDispGroup, cards : ICard[]
             
             {open && <CollapseTile onClick={toggle}/>}
             {!open && <OpenTile onClick={toggle}/>}
-            <EditTile />
+            {props.editable && <EditTile />}
         </Title>
         {open &&
         <Droppable isDropDisabled={props.disabled} droppableId={props.group.id}>
-            {(provided, snapshot) => (
+            {(provided) => (
                 <Cards
                 
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                 >
                     
-                    {props.cards.map((card, index) => (
-                        <CardTile
-                            disabled = {props.group.disabled.includes(card.id)}
-                            cardObj={card}
-                            index={index}
-                            id={`${props.group.id}/${card.id}`}
-                            key={`${props.group.id}/${card.id}`}
-                        />
-                    ))}
+                    {props.cards.map((card, index) => {
+                        const card_tile_props = {
+                            disabled : props.group.disabled.includes(card.id),
+                            cardObj : card,
+                            index : index,
+                            id : `${props.group.id}/${card.id}`,
+                            key : `${props.group.id}/${card.id}`,
+                        }
+                        return card.card_faces ? <CardTileDual {...card_tile_props} /> : <CardTile {...card_tile_props} />
+                        
+
+                    }
+                        
+                        
+                    )}
                     {provided.placeholder}
                 </Cards>
             )}

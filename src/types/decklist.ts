@@ -21,8 +21,8 @@ export interface IDispGroup {
 }
 
 export interface IDeckDispMode {
-    grouping : "tags" | "type" | "color" | "cmc" | string
-    order : "cmc" | "price" | string
+    grouping : "tags" | "type" | "color" | "cmc"
+    order : "cmc" | "price"
 }
 
 export interface IDeckList {

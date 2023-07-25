@@ -1,8 +1,8 @@
 import Dropdown from "react-dropdown"
 import 'react-dropdown/style.css';
 import { useContext } from "react";
-import { DeckListContext } from "..";
-import { IDeckDispMode, IDeckList } from "../../../types/decklist";
+import { DeckListContext } from "../../";
+import { IDeckDispMode, IDeckList } from "../../../../types/decklist";
 import styled from "styled-components";
 
 const SettingsWrapper = styled.div`
@@ -12,19 +12,20 @@ const SettingsWrapper = styled.div`
 
 export default function ModeSelector() {
     const {decklist, updateDeckList} = useContext(DeckListContext)
-    const groupings = ["tags" , "type" , "color" , "cmc"]
-    const orders = ["cmc" , "price"]
+    const groupings : IDeckDispMode["grouping"][] = ["tags" , "type" , "color" , "cmc"]
+    const orders : IDeckDispMode["order"][] = ["cmc" , "price"]
     decklist.display.grouping
     decklist.display.order
     return (
         <SettingsWrapper>
         <Dropdown
             options={groupings}
-            onChange={(option)=> {
+            onChange={(option )=> {
+                const newValue = groupings.filter(grouping=>grouping===option.value)[0]
                 const newDeckList : IDeckList = {
                     ...decklist,
                     display : {
-                        grouping : option.value,
+                        grouping : newValue,
                         order : decklist.display.order
                     }
                 }
@@ -35,11 +36,12 @@ export default function ModeSelector() {
          <Dropdown
             options={orders}
             onChange={(option)=> {
+                const newValue = orders.filter(grouping=>grouping===option.value)[0]
                 const newDeckList : IDeckList = {
                     ...decklist,
                     display : {
                         grouping : decklist.display.grouping,
-                        order : option.value,
+                        order : newValue,
                     }
                 }
                 updateDeckList(newDeckList)

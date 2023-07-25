@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import styled from "styled-components"
 
-import { DeckListContext } from ".."
+import { DeckListContext } from "../.."
 
 import { EditText, onSaveProps } from "react-edit-text"
 

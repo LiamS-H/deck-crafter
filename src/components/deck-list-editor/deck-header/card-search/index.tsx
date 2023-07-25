@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 
-import { IscryfallResult } from "../../../types/card";
-import { scryfallQuery } from "../../../services/scryfallService";
+import { IscryfallResult } from "../../../../types/card";
+import { scryfallQuery } from "../../../../services/scryfallService";
 
-import { DeckListContext } from "..";
+import { DeckListContext } from "../..";
 
 import styled from "styled-components";
 

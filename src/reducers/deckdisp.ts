@@ -1,5 +1,5 @@
 import { IDeckDisp, EMPTY_DECKDISP, IDeckList, IDeckDispMode } from "../types/decklist";
-import { ICard, cardTypes } from "../types/card";
+import { ICard, cardTypes, cardColors } from "../types/card";
 
 export function getTypes(cardObj : ICard) : {super_types : string[], card_types : string[], sub_types : string[]} {
     const types : {super_types : string[], card_types : string[], sub_types : string[]} = {super_types : [], card_types : [], sub_types : []}
@@ -17,6 +17,7 @@ export function getTypes(cardObj : ICard) : {super_types : string[], card_types 
 
 export function getDeckDisp(decklist : IDeckList) : IDeckDisp {
     const dispDeck : IDeckDisp = {
+        title : decklist.title,
         display : {...decklist.display},
         cards : {...decklist.cards},
         groups : { },
@@ -64,8 +65,15 @@ export function getDeckDisp(decklist : IDeckList) : IDeckDisp {
                     }
                     if (group_names.length === 0) group_names.push("untagged");
                     break
+                case "color":
+                    let color: keyof typeof cardColors;
+                    for (color in cardColors) {
+                        if (card.color_identity.includes(color)) group_names.push(cardColors[color]);
+                    }
+                    if (group_names.length === 0) group_names.push("Colorless");
+                    break
                 default:
-                    group_names = ["untagged"]
+                    group_names=[card[mode.grouping]]
             }
 
             group_names.forEach(group_name=>{

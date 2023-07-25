@@ -90,3 +90,12 @@ export const cardTypes = [
     'Tribal',
     'Vanguard',
 ]
+
+export const cardColors = {
+    W:"White",
+    U:"Blue",
+    B:"Black",
+    R:"Red",
+    G:"Green",
+    C:"Colorless",
+}

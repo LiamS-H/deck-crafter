@@ -9,25 +9,15 @@ import { getDeckDisp } from "../../reducers/deckdisp";
 
 import axios from "axios"
 
-import CardSearch from "./card-search";
-import ModeSelector from "./ModeSelector";
-import DeckTitle from "./DeckTitle";
-
 import SearchZone from "./zones/search";
 import MaybeZone from "./zones/maybe";
 import MainZone from "./zones/main";
 
-const EditorHeader = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-`
+import DeckHeader from "./deck-header/main";
 
 const DeckWindow = styled.div`
     width: 100%;
     height: 90%;
-    background-color: ${props=>props.theme.background};
     
     
     display: flex;
@@ -194,11 +184,7 @@ export default function DeckListEditor(props : {deck_id : string}) {
     return (
     <>
         <DeckListContext.Provider value={{decklist, updateDeckList}}>
-            <EditorHeader>
-                <DeckTitle />
-                <ModeSelector />
-                <CardSearch />
-            </EditorHeader>
+            <DeckHeader />
         
             <DragDropContext
                 onDragEnd={onDragEnd}
