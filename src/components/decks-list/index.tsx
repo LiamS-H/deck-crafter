@@ -1,6 +1,5 @@
 import { useState, useEffect} from "react"
 import { useNavigate } from "react-router-dom"
-import { IUser } from "../../../server/databasetypes"
 import axios from "axios";
 import {
     useUser
@@ -46,8 +45,8 @@ export function DecksList() {
         axios
         .get(`http://localhost:8000/${user?.id}/decks`)
         .then((res)=>{
-            const user : IUser = res.data
-            setDecks(user.decks)
+            const decks : {[key:string]:IDeckList} = res.data
+            setDecks(decks)
         })
         .catch((error) => {console.log(error)})
     }, [])

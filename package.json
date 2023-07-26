@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "backend": "nodemon --esm ./server/server.ts",
     "prod": "concurrently -r \"vite\" \"ts-node-esm ./server/server.ts\"",
     "dev": "concurrently -r \"vite\" \"nodemon --esm ./server/server.ts\"",
     "build": "tsc && vite build",
@@ -21,6 +22,7 @@
     "express": "^4.18.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
+    "mysql2": "^3.5.2",
     "node-fetch": "^2.6.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -34,7 +36,6 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
-    "@types/node": "^20.3.3",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@types/react-edit-text": "^5.0.1",

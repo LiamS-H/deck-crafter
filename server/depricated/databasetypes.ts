@@ -1,4 +1,5 @@
-import { IDeckList } from "../src/types/decklist"
+import { IDeckList } from "../../src/types/decklist"
+
 
 export interface IUser {
     id : string

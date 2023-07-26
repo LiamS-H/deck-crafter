@@ -1,16 +1,9 @@
-import { useState, useEffect } from "react"
-import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react"
+import { SignedIn, SignedOut } from "@clerk/clerk-react"
 import { useParams } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
 import DeckListEditor from "../../components/deck-list-editor"
-
-import { IDeckList, EMPTY_DECKLIST } from "../../types/decklist"
-
-import axios from "axios"
 
 
 export default function Deck() {
-    const navigate = useNavigate()
 
     const { deck_id } = useParams()
     

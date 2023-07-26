@@ -1,22 +1,34 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import * as fs from "fs"
-import crypto from "crypto"
-import { IDB, IUser } from './databasetypes';
+import crypto from "crypto";
 import { IDeckList } from '../src/types/decklist';
 
+import mysql from 'mysql2'
+
 dotenv.config();
+
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: process.env.DBUSER,
+    password: process.env.DBPASS,
+    database: 'deckcrafter',
+})
 
 const app: Express = express();
 const port = process.env.PORT;
 
-
+function toSQLJSON(deck : IDeckList) : string {
+    const string1 = JSON.stringify(deck)
+    const string2 = string1.replace(/'/g,"''")
+    const string3 = string2.replace(/\\/g,"\\\\")
+    return string3;
+}
 
 app.use(bodyParser.json(), function(req: Request, res: Response, next : NextFunction) {
     req;
-    // console.log(req);
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173"); // update to match the domain you will make the request from
+    // console.log(req.);
+    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
@@ -26,155 +38,113 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server');
 });
 
-app.get('/:user/decks', (req: Request, res: Response) => {
+app.get('/:user/decks', async (req: Request, res: Response) => {
     // see if user in database and return decks, if not add to database
     const user_id = req.params.user
 
-    fs.readFile("./server/database.json", (error, data)=>{
-        if (error) {
-            console.log(error)
-            res.json({error : "error fetching database"})
-            throw Error;
-        }
+    const connection = pool.promise()
 
-        const db : IDB = JSON.parse(data.toString())
-        
-        if (!db.hasOwnProperty(user_id)) {
-            console.log("adding new user")
-            const newUser : IUser = {
-                id : user_id,
-                decks : {},
-            }
-            db[user_id] = newUser
-            fs.writeFile("./server/database.json", JSON.stringify(db), error=>{
-                if (!error) return;
-                throw Error(`database failed write:\n${error}`);
-            })
-        }
+    const [user_data] = await connection.execute(`SELECT * FROM USERS WHERE id=?`, [user_id])
+    const users = <mysql.RowDataPacket[]> user_data
 
-        const user : IUser = db[user_id]
+    if (users.length === 0) {
+        connection.query(`INSERT INTO Users (id) VALUES (?)`,[user_id]);
+        console.log("adding to db")
+    }
 
-        res.json(user)
+    const [results] = await connection.execute(`SELECT * FROM Decks WHERE owner_id=?`, [user_id])
+    const rows = <mysql.RowDataPacket[]> results
+    
+    const decks : {[key:string] : IDeckList} = {}
+
+    rows.forEach(row =>{
+        decks[row.id] = row.deckObj
     })
+    
+    res.json(decks)
     
 });
 
-app.post('/:user/decks', (req: Request, res: Response) => {
-    //create new 
+app.post('/:user/decks', async (req: Request, res: Response) => {
     const user_id = req.params.user
 
-    console.log(req.body)
+    const connection = pool.promise()
 
-    fs.readFile("./server/database.json", (error, data)=>{
-        if (error) {
-            res.json({error : `error fetching database`})
-            throw Error(`error fetching database:${error}`);
-        }
+    const [user_data] = await connection.execute(`SELECT * FROM USERS WHERE id=?`, [user_id])
+    const users = <mysql.RowDataPacket[]> user_data
 
-        const db : IDB = JSON.parse(data.toString())
-        
-        if (!db.hasOwnProperty(user_id)) {
-            res.json({error : "user not found"})
-            console.log(`user:${user_id} not found`);
-            return;
-        }
+    if (users.length === 0) {
+        res.json({error : "user not found"})
+        return;
+    }
 
-        
+    const new_deck : IDeckList = req.body
 
-        const new_deck : IDeckList = req.body
+    const deck_id = crypto.randomUUID()
 
-
-        const deck_id = crypto.randomUUID()
-
-        db[user_id].decks[deck_id] = new_deck
-
-        fs.writeFile("./server/database.json", JSON.stringify(db), error=>{
-            if (!error) return;
-            throw Error(`database failed write:\n${error}`);
-        })
-
-        res.json({deck_id : deck_id})
-    })
+    connection.execute(
+        `INSERT INTO decks (id, owner_id, deckObj) VALUES (?, ?, ?)`,
+        [deck_id, user_id, toSQLJSON(new_deck)]
+    )
+    
+    res.json({deck_id : deck_id})
 });
 
-app.get('/:user/decks/:deck', (req: Request, res: Response) => {
+app.get('/:user/decks/:deck', async (req: Request, res: Response) => {
     const user_id = req.params.user
 
     const deck_id = req.params.deck
 
-    fs.readFile("./server/database.json", (error, data)=>{
-        if (error) {
-            res.json({error : `error fetching database`})
-            throw Error(`error fetching database:${error}`);
-        }
+    const connection = pool.promise()
 
-        const db : IDB = JSON.parse(data.toString())
-        
-        if (!db.hasOwnProperty(user_id)) {
-            res.json({error : "user not found"})
-            console.log(`user:${user_id} not found`);
-            return;
-        }
+    const [user_data] = await connection.execute(`SELECT * FROM USERS WHERE id=?`, [user_id])
+    const users = <mysql.RowDataPacket[]> user_data
 
-        const user : IUser = db[user_id]
-        const decks = user.decks
+    if (users.length === 0) {
+        res.json({error : "user not found"})
+        return;
+    }
 
-        if (!decks.hasOwnProperty(deck_id)) {
-            res.json({error : "deck not found"})
-            console.log(`user:${user_id} does not have deck:${deck_id}`);
-            return;
-        }
+    const [deck_data] = await connection.execute(`SELECT deckObj FROM Decks WHERE id=?`,[deck_id])
+    const decks = <mysql.RowDataPacket[]> deck_data
 
-        const deck : IDeckList = decks[deck_id]
+    if (decks.length == 0) {
+        res.json({error : "deck not found"})
+        return;
+    }
 
-        res.json(deck)
+    const deck : IDeckList = decks[0].deckObj
 
-    })
+    res.json(deck)
+
 });
 
-app.post('/:user/decks/:deck', (req: Request, res: Response) => {
+app.post('/:user/decks/:deck', async (req: Request, res: Response) => {
     const user_id = req.params.user
 
     const deck_id = req.params.deck
 
-    fs.readFile("./server/database.json", (error, data)=>{
-        if (error) {
-            res.json({error : `error fetching database`})
-            throw Error(`error fetching database:${error}`);
-        }
+    const connection = pool.promise()
 
-        const db : IDB = JSON.parse(data.toString())
-        
-        if (!db.hasOwnProperty(user_id)) {
-            res.json({error : "user not found"})
-            console.log(`user:${user_id} not found`);
-            return;
-        }
+    const [user_data] = await connection.execute(`SELECT * FROM USERS WHERE id=?`, [user_id])
+    const users = <mysql.RowDataPacket[]> user_data
 
-        const user : IUser = db[user_id]
-        const decks = user.decks
+    if (users.length === 0) {
+        res.json({error : "user not found"})
+        return;
+    }
 
-        if (!decks.hasOwnProperty(deck_id)) {
-            res.json({error : "deck not found"})
-            console.log(`user:${user_id} does not have deck:${deck_id}`);
-            return;
-        }
+    const new_deck : IDeckList = req.body
 
-        const new_deck : IDeckList = req.body
-
-        delete db[user_id].decks[deck_id]
-
-        db[user_id].decks[deck_id] = new_deck
-
-        fs.writeFile("./server/database.json", JSON.stringify(db), error=>{
-            if (!error) return;
-            throw Error(`database failed write:\n${error}`);
-        })
-
-        res.json({status : "succes!"})
-    })
+    connection.execute(
+        `UPDATE decks SET deckObj=? WHERE id=?`,
+        [toSQLJSON(new_deck), deck_id]
+    )
+    
+    res.json({deck_id : deck_id})
 });
 
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
+
