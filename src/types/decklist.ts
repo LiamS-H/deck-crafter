@@ -27,6 +27,7 @@ export interface IDeckDispMode {
 
 export interface IDeckList {
     title : string;
+    colors : string[];
     display : IDeckDispMode;
     cards : {
         [key:string] : ICard
@@ -46,6 +47,7 @@ export interface IDeckList {
 
 export const EMPTY_DECKLIST : IDeckList = {
     title: "unnamed",
+    colors: [ ],
     display : {
         grouping : "type",
         order: "cmc"

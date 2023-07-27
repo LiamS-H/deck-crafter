@@ -144,6 +144,27 @@ app.post('/:user/decks/:deck', async (req: Request, res: Response) => {
     res.json({deck_id : deck_id})
 });
 
+app.delete('/:user/decks/:deck', async (req: Request, res: Response) => {
+    const user_id = req.params.user
+
+    const deck_id = req.params.deck
+
+    const connection = pool.promise()
+
+    const [user_data] = await connection.execute(`SELECT * FROM USERS WHERE id=?`, [user_id])
+    const users = <mysql.RowDataPacket[]> user_data
+
+    if (users.length === 0) {
+        res.json({error : "user not found"})
+        return;
+    }
+
+    connection.execute(
+        `DELETE FROM Decks WHERE owner_id=? AND id=?`,
+        [user_id, deck_id]
+    )
+});
+
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

@@ -1,6 +1,5 @@
 import { useState, useEffect} from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios";
 import {
     useUser
 } from "@clerk/clerk-react";
@@ -9,6 +8,7 @@ import styled from "styled-components"
 import { DeckTile } from "./deck-tile"
 
 import { EMPTY_DECKLIST, IDeckList } from "../../types/decklist"
+import { getDecksQuery, putDecksQuery } from "../../services/backendService";
 
 const DecksListWrapper = styled.div`
     width : 50%;
@@ -31,6 +31,7 @@ const DecksListBG = styled.div`
 const NewDeck = styled.button`
     background-color : ${(props)=>props.theme.group};
     cursor: pointer;
+    color : ${(props)=>props.theme.text};
     border-radius: 5px;
     margin: 5px;
     padding: 5px;
@@ -42,8 +43,8 @@ export function DecksList() {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        axios
-        .get(`http://localhost:8000/${user?.id}/decks`)
+        if (!user) return;
+        getDecksQuery(user.id)
         .then((res)=>{
             const decks : {[key:string]:IDeckList} = res.data
             setDecks(decks)
@@ -60,8 +61,8 @@ export function DecksList() {
     deck_tiles.push(
         <NewDeck key="new-deck"
             onClick={()=>{
-                axios
-                .post(`http://localhost:8000/${user?.id}/decks`, EMPTY_DECKLIST)
+                if (!user) return;
+                putDecksQuery(user.id, EMPTY_DECKLIST)
                 .then((res)=>{
                     const deck_id : string = res.data.deck_id
                     navigate(`/deck/${deck_id}`)

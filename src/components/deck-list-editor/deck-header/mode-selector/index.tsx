@@ -6,8 +6,15 @@ import { IDeckDispMode, IDeckList } from "../../../../types/decklist";
 import styled from "styled-components";
 
 const SettingsWrapper = styled.div`
+    justify-self:left;
+
     display: flex;
     flex-flow: row nowrap;
+    align-items: center;
+`
+
+const DropDownLable = styled.span`
+    
 `
 
 export default function ModeSelector() {
@@ -18,6 +25,7 @@ export default function ModeSelector() {
     decklist.display.order
     return (
         <SettingsWrapper>
+            <DropDownLable>Grouping:</DropDownLable>
         <Dropdown
             options={groupings}
             onChange={(option )=> {
@@ -33,6 +41,7 @@ export default function ModeSelector() {
             }}
             value={decklist.display.grouping}
          />
+            <DropDownLable>Order:</DropDownLable>
          <Dropdown
             options={orders}
             onChange={(option)=> {

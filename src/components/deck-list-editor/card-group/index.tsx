@@ -100,8 +100,6 @@ export default function CardGroup( props : { group : IDispGroup, cards : ICard[]
                             key : `${props.group.id}/${card.id}`,
                         }
                         return card.card_faces ? <CardTileDual {...card_tile_props} /> : <CardTile {...card_tile_props} />
-                        
-
                     }
                         
                         

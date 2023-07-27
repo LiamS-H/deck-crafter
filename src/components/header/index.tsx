@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import logo from '../../assets/Logo.png'
 
 import './header.css'
 
@@ -11,7 +10,7 @@ export default function Header() {
     <>
         <header>
             <nav>
-                <Link to={'/home'}><img src={logo}/></Link>
+                <Link to={'/home'}>deck.crafter</Link>
                 <ul className="nav-items">
                     <li><Link to={'decks'}>Decks</Link></li>
                     <SignedOut><li><LoginButton /></li></SignedOut>

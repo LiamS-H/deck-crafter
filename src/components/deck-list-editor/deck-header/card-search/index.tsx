@@ -21,7 +21,10 @@ export default function CardSearch() {
 
     function beginQuery(event : React.FormEvent) {
         event.preventDefault()
-        scryfallQuery(input).then(handleSuccess, handleError)
+        const constraints : string = "commander:"+decklist.colors.map(color=>`{${color}}`).join()
+        console.log(constraints)
+        const query = constraints + " " + input
+        scryfallQuery(query).then(handleSuccess, handleError)
         setMessage((message)=>message="searching")
     }
 

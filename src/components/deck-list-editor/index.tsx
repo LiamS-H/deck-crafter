@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { DragDropContext, DropResult, DragStart } from "@hello-pangea/dnd"
 import { styled } from "styled-components";
 
+import { getDeckQuery, putDeckQuery } from "../../services/backendService";
 import { IDeckList, EMPTY_DECKLIST } from "../../types/decklist"
 import { getDeckDisp } from "../../reducers/deckdisp";
+import {cleanDeckList} from "../../reducers/decklist";
 
-import axios from "axios"
 
 import SearchZone from "./zones/search";
 import MaybeZone from "./zones/maybe";
@@ -42,8 +43,7 @@ export default function DeckListEditor(props : {deck_id : string}) {
 
     useEffect(()=>{
         if(!user) return;
-        axios
-        .get(`http://localhost:8000/${user?.id}/decks/${props.deck_id}`)
+        getDeckQuery(user.id,props.deck_id)
         .then((res)=>{
             if (res.data.hasOwnProperty("error")) navigate("/error");
             const loaded_deck : IDeckList = res.data
@@ -52,10 +52,14 @@ export default function DeckListEditor(props : {deck_id : string}) {
         .catch((error) => {console.log(error)})
     },[user])
 
-    async function updateDeckList(new_decklist : IDeckList) {
+    function updateDeckList(new_decklist : IDeckList) {
+        if (new_decklist.tags.hasOwnProperty("commander")) {
+            new_decklist.colors = new_decklist.cards[new_decklist.tags.commander[0]].color_identity
+        }
         setDeckList(new_decklist)
-        axios
-        .post(`http://localhost:8000/${user?.id}/decks/${props.deck_id}`, new_decklist)
+        const clean_decklist = cleanDeckList(new_decklist)
+        if(!user) {return;}
+        putDeckQuery(user.id,props.deck_id, clean_decklist)
         .then(()=>{})
         .catch((error) => {console.log(error)})
     }
@@ -185,6 +189,7 @@ export default function DeckListEditor(props : {deck_id : string}) {
     <>
         <DeckListContext.Provider value={{decklist, updateDeckList}}>
             <DeckHeader />
+            
         
             <DragDropContext
                 onDragEnd={onDragEnd}
